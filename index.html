@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estacionamento</title>
+</head>
+
+<body>
+  <div id="app">
+
+    <h2>Estacionamento</h2><br>
+
+
+    <div id="form-div">
+      <form id="placa-submission-form" class="row row-cols-lg-auto align-items-center">
+        <label for="placa-veiculo">Placa do veículo</label>
+        <div class="col">
+          <input type="text" name="placa" class="form-control" placeholder="ABC123" id="placa-veiculo">
+        </div>
+        <div class="col">
+          <input type="submit" class="btn btn-primary" class="form-control" value="Adicionar" id="submit-placa-btn" />
+        </div>
+      </form>
+    </div>
+
+    <div id="tableDiv">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Posição</th>
+            <th scope="col">Placa</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Chegada</th>
+            <th scope="col">Saída</th>
+            <th scope="col">Valor a pagar</th>
+            <th scope="col">Remover</th>
+          </tr>
+        </thead>
+
+        <tbody id="carsTable">
+
+        </tbody>
+      </table>
+    </div>
+
+
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>
