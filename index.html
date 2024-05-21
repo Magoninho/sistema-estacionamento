@@ -11,10 +11,9 @@
 <body>
   <div id="app">
 
+    <div id="form-div">
     <h2>Estacionamento</h2><br>
 
-
-    <div id="form-div">
       <form id="placa-submission-form" class="row row-cols-lg-auto align-items-center">
         <label for="placa-veiculo">Placa do veículo</label>
         <div class="col">
@@ -22,6 +21,8 @@
         </div>
         <div class="col">
           <input type="submit" class="btn btn-primary" class="form-control" value="Adicionar" id="submit-placa-btn" />
+          <input type="button" class="btn btn-success" class="form-control" value="Liberar saída" id="liberar-placa-btn" />
+          <input type="button" class="btn btn-danger" class="form-control" value="Remover" id="remover-placa-btn" />
         </div>
       </form>
     </div>
@@ -36,7 +37,7 @@
             <th scope="col">Chegada</th>
             <th scope="col">Saída</th>
             <th scope="col">Valor a pagar</th>
-            <th scope="col">Remover</th>
+            <th scope="col">Liberar Saída</th>
           </tr>
         </thead>
 

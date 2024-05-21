@@ -13,6 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.post('/api/estacionar', (req, res) => {
 
     let placa = req.body.placa;
+    let estado = req.body.estado;
 
     fs.readFile("./database.json", (err, data) => {
         let json = JSON.parse(data);
@@ -29,7 +30,7 @@ app.post('/api/estacionar', (req, res) => {
         if (canPush) {
             json.push({
                 placa: placa,
-                estado: "",
+                estado: estado,
                 chegada: new Date().toUTCString(),
                 saida: "",
                 preco: 0.00
@@ -53,13 +54,34 @@ app.get('/api/estacionados', (req, res) => {
     });
 });
 
+app.get('/api/estacionados/:placa', (req, res) => {
+    const { placa } = req.params;
+
+    fs.readFile("./database.json", (err, data) => {
+        let jsonArray = JSON.parse(data);
+        let success = false;
+        for (let i = 0; i < jsonArray.length; i++) {
+            const element = jsonArray[i];
+            if (element.placa === placa) {
+                res.status(200).json(element);
+                success = true;
+                break;
+            }
+        }
+        if (!success) {
+            res.status(404).send("Nenhuma placa encontrada");
+        }
+    });
+    
+});
+
 app.listen(port, () => {
     console.log("app listening to port: " + port);
 });
 
 app.patch('/api/estacionados/:placa', (req, res) => {
     const { placa } = req.params;
-    const { saida, estado, preco } = req.body;
+    const { saida, preco } = req.body;
 
     fs.readFile("./database.json", (err, data) => {
         let jsonArray = JSON.parse(data);
@@ -70,7 +92,6 @@ app.patch('/api/estacionados/:placa', (req, res) => {
             if (element.placa === placa) {
                 // updating stuff here
                 if (saida) jsonArray[i].saida = saida;
-                if (estado) jsonArray[i].estado = estado;
                 if (preco) jsonArray[i].preco = preco;
                 break;
             }
@@ -80,3 +101,7 @@ app.patch('/api/estacionados/:placa', (req, res) => {
         fs.writeFile("./database.json", JSON.stringify(jsonArray), (err) => err && console.error(err));
     });
 });
+
+// app.delete('/api/estacionados/:placa', () => {
+    
+// });
