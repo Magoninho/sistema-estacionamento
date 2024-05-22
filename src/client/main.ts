@@ -5,9 +5,19 @@ import { findSignState } from "./signFinder";
 
 let form = document.querySelector("#placa-submission-form") as HTMLFormElement;
 let placa_input = document.querySelector("#placa-veiculo") as HTMLInputElement;
+let liberarSaidaBtn = document.querySelector("#liberar-placa-btn") as HTMLInputElement;
+let removerBtn = document.querySelector("#remover-placa-btn") as HTMLInputElement;
 
 let tableBody: HTMLTableElement = document.querySelector("#carsTable") as HTMLTableElement;
 
+
+liberarSaidaBtn.addEventListener("click", () => {
+    liberarSaida(placa_input.value);
+});
+
+removerBtn.addEventListener("click", () => {
+    deletarPlaca(placa_input.value)
+});
 
 window.addEventListener("load", () => {
     const requestOptions = {
@@ -70,15 +80,23 @@ function initTable(db: Vaga[]) {
             }
         }
 
-        let removeCell = row.insertCell(6);
-        let removeBtn = document.createElement("button");
-        removeBtn.textContent = "Liberar";
-        removeBtn.classList.add("btn");
-        removeBtn.classList.add("btn-success");
-        removeBtn.addEventListener("click", () => {
-            console.log(placa);
+        let liberarCell = row.insertCell(6);
+        let liberarBtn = document.createElement("button");
+        liberarBtn.textContent = "Liberar";
+        liberarBtn.classList.add("btn");
+        liberarBtn.classList.add("btn-success");
+        liberarBtn.addEventListener("click", () => {
             liberarSaida(placa);
+        });
+        liberarCell.appendChild(liberarBtn);
 
+        let removeCell = row.insertCell(7);
+        let removeBtn = document.createElement("button");
+        removeBtn.textContent = "Remover";
+        removeBtn.classList.add("btn");
+        removeBtn.classList.add("btn-danger");
+        removeBtn.addEventListener("click", () => {
+            deletarPlaca(placa);
         });
         removeCell.appendChild(removeBtn);
 
@@ -159,6 +177,18 @@ async function liberarSaida(placa: string): Promise<void> {
                 response.text();
             }
         })
+        .then((result) => location.reload())
+        .catch((error) => console.error(error));
+}
+
+
+function deletarPlaca(placa: string): void {
+    const requestOptions = {
+        method: "DELETE"
+      };
+      
+      fetch(`http://localhost:3000/api/estacionados/${placa}`, requestOptions)
+        .then((response) => response.text())
         .then((result) => location.reload())
         .catch((error) => console.error(error));
 }

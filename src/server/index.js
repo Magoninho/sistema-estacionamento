@@ -102,6 +102,23 @@ app.patch('/api/estacionados/:placa', (req, res) => {
     });
 });
 
-// app.delete('/api/estacionados/:placa', () => {
-    
-// });
+app.delete('/api/estacionados/:placa', (req, res) => {
+    const { placa } = req.params;
+
+    fs.readFile("./database.json", (err, data) => {
+        let jsonArray = JSON.parse(data);
+
+
+        for (let i = 0; i < jsonArray.length; i++) {
+            const element = jsonArray[i];
+            if (element.placa === placa) {
+                jsonArray.splice(i, 1);
+                break;
+            }
+        }
+        res.send("updated");
+
+        fs.writeFile("./database.json", JSON.stringify(jsonArray), (err) => err && console.error(err));
+    });
+
+});
