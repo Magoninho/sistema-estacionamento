@@ -78,9 +78,22 @@ function initTable(db: Vaga[]) {
             if (key == "placa") {
                 placa = value;
             }
+
+            
+        }
+        
+        
+        if (row.cells[3].textContent && row.cells[4].textContent) {
+            let timeDiffCell = row.insertCell(6);
+            let timeDiffText = document.createTextNode(`${Math.floor(getTimeDifferenceInMinutes(row.cells[3].textContent, row.cells[4].textContent))} minutos`);
+            timeDiffCell.appendChild(timeDiffText);
+        } else {
+            let timeDiffCell = row.insertCell(6);
+            let timeDiffText = document.createTextNode("0 minutos");
+            timeDiffCell.appendChild(timeDiffText);
         }
 
-        let liberarCell = row.insertCell(6);
+        let liberarCell = row.insertCell(7);
         let liberarBtn = document.createElement("button");
         liberarBtn.textContent = "Liberar";
         liberarBtn.classList.add("btn");
@@ -90,7 +103,7 @@ function initTable(db: Vaga[]) {
         });
         liberarCell.appendChild(liberarBtn);
 
-        let removeCell = row.insertCell(7);
+        let removeCell = row.insertCell(8);
         let removeBtn = document.createElement("button");
         removeBtn.textContent = "Remover";
         removeBtn.classList.add("btn");
@@ -99,10 +112,6 @@ function initTable(db: Vaga[]) {
             deletarPlaca(placa);
         });
         removeCell.appendChild(removeBtn);
-
-        // TODO: addEventListener no botão de remover
-        // usando os dados do dataset para apagar no banco de dados a placa
-
 
     }
 }
@@ -153,10 +162,6 @@ async function liberarSaida(placa: string): Promise<void> {
     let timeDifference: number = getTimeDifferenceInMinutes(chegada, saida);
     
     let price: number = calculatePrice(timeDifference);
-
-    // console.log(price);
-    
-    
 
     const urlencoded = new URLSearchParams();
     urlencoded.append("saida", saida);
