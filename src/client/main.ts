@@ -78,11 +78,8 @@ function initTable(db: Vaga[]) {
             if (key == "placa") {
                 placa = value;
             }
-
-            
         }
-        
-        
+
         if (row.cells[3].textContent && row.cells[4].textContent) {
             let timeDiffCell = row.insertCell(6);
             let timeDiffText = document.createTextNode(`${Math.floor(getTimeDifferenceInMinutes(row.cells[3].textContent, row.cells[4].textContent))} minutos`);
@@ -160,7 +157,7 @@ async function liberarSaida(placa: string): Promise<void> {
     })();
 
     let timeDifference: number = getTimeDifferenceInMinutes(chegada, saida);
-    
+
     let price: number = calculatePrice(timeDifference);
 
     const urlencoded = new URLSearchParams();
@@ -190,9 +187,9 @@ async function liberarSaida(placa: string): Promise<void> {
 function deletarPlaca(placa: string): void {
     const requestOptions = {
         method: "DELETE"
-      };
-      
-      fetch(`http://localhost:3000/api/estacionados/${placa}`, requestOptions)
+    };
+
+    fetch(`http://localhost:3000/api/estacionados/${placa}`, requestOptions)
         .then((response) => response.text())
         .then((result) => location.reload())
         .catch((error) => console.error(error));
