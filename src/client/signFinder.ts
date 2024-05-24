@@ -49,6 +49,10 @@ export function isOnCharInterval(beginChar: string, endChar: string, char: strin
     let indexOfSecond = alphabet.indexOf(endChar);
     let indexOfChar = alphabet.indexOf(char);
 
+    if (indexOfFirst > indexOfSecond) {
+        return (indexOfFirst >= indexOfChar || indexOfSecond <= indexOfChar);
+    }
+
     return (indexOfFirst <= indexOfChar && indexOfSecond >= indexOfChar);
 
 }
@@ -63,7 +67,7 @@ export function isSequenceOnInterval(beginSequence: string, endSequence: string,
         result[i] = isOnCharInterval(beginSequenceChar, endSequenceChar, char);
     }
 
-    return result[0] && result[1] && result[2];
+    return (result[0] && result[1] && result[2]);
 }
 
 export function findSignState(placa: string): string {
@@ -73,6 +77,8 @@ export function findSignState(placa: string): string {
 
     // checando intervalos de placa da Paraíba
     for (const interval of PB_SEQUENCES) {
+        
+        
         if (isSequenceOnInterval(interval[0], interval[1], sequence)) {
             return "Paraíba";
         }
