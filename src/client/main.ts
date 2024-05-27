@@ -2,6 +2,7 @@ import "./style.scss";
 import "./signFinder";
 import { findSignState } from "./signFinder";
 
+const BASE_URL = "http://localhost:3000";
 
 let form = document.querySelector("#placa-submission-form") as HTMLFormElement;
 let placa_input = document.querySelector("#placa-veiculo") as HTMLInputElement;
@@ -24,7 +25,7 @@ window.addEventListener("load", () => {
         method: "GET"
     };
 
-    fetch("http://localhost:3000/api/estacionados", requestOptions)
+    fetch(`${BASE_URL}/api/estacionados`, requestOptions)
         .then((response) => response.json())
         .then((result) => initTable(result))
         .catch((error) => console.error(error));
@@ -46,7 +47,7 @@ form?.addEventListener("submit", (e) => {
         body: urlencoded
     };
 
-    fetch("http://localhost:3000/api/estacionar", requestOptions)
+    fetch(`${BASE_URL}/api/estacionar`, requestOptions)
         .then((response) => {
             if (!response.ok) {
                 alert("Erro: Essa placa já foi cadastrada!");
@@ -150,7 +151,7 @@ async function liberarSaida(placa: string): Promise<void> {
         };
 
 
-        return fetch(`http://localhost:3000/api/estacionados/${placa}`, requestOptions)
+        return fetch(`${BASE_URL}/api/estacionados/${placa}`, requestOptions)
             .then((response) => response.text())
             .then((result) => JSON.parse(result).chegada)
             .catch((error) => console.log(error));
@@ -170,7 +171,7 @@ async function liberarSaida(placa: string): Promise<void> {
         body: urlencoded
     };
 
-    fetch(`http://localhost:3000/api/estacionados/${placa}`, requestOptions)
+    fetch(`${BASE_URL}/api/estacionados/${placa}`, requestOptions)
         .then((response) => {
             if (!response.ok) {
                 alert("Erro: Placa não encontrada!");
@@ -189,7 +190,7 @@ function deletarPlaca(placa: string): void {
         method: "DELETE"
     };
 
-    fetch(`http://localhost:3000/api/estacionados/${placa}`, requestOptions)
+    fetch(`${BASE_URL}/api/estacionados/${placa}`, requestOptions)
         .then((response) => response.text())
         .then((result) => location.reload())
         .catch((error) => console.error(error));
